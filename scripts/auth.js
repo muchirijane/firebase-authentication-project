@@ -1,4 +1,17 @@
- //sign up
+//Getting the data from firebase
+db.collection('guides').get().then(snapshot =>{
+    setupGuides(snapshot.docs);
+})
+
+// listen for auth status changes
+auth.onAuthStateChanged(user =>{
+    if(user){
+        console.log('user logged in: ', user);
+    }else{
+        console.log('User has logged out!!');
+    }
+});
+//sign up
 const signUpForm = document.querySelector('#signup-form');
 
 signUpForm.addEventListener('submit', (e) =>{
@@ -18,11 +31,9 @@ signUpForm.addEventListener('submit', (e) =>{
 //logout
 const logout = document.querySelector('#logout');
 
-logout.addEventListener('submit', (e) =>{
+logout.addEventListener('click', (e) =>{
     e.preventDefault();
-    auth.signOut().then(() =>{
-        console.log('User has logout!');
-    });
+    auth.signOut();
 });
 
 //login
@@ -36,7 +47,6 @@ loginForm.addEventListener('submit', e =>{
     const password = loginForm['login-password'].value;
 
     auth.signInWithEmailAndPassword(email, password).then(cred =>{
-        console.log(cred);
         const modal = document.querySelector('#modal-login');
         M.Modal.getInstance(modal).close();
         signUpForm.reset();
