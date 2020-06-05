@@ -127,23 +127,23 @@
    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-firestore.js"></script>
 
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyD9E9U6V0G-ZelI9hsCIJp9CfTGa56pujI",
-            authDomain: "game-guide-ninja.firebaseapp.com",
-            databaseURL: "https://game-guide-ninja.firebaseio.com",
-            projectId: "game-guide-ninja",
-            appId: "1:239088576651:web:633ead33d0ad9cb5dc4c8e",
-            measurementId: "G-1554ZSECQB"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        console.log(auth)
-    </script>
-
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyD9E9U6V0G-ZelI9hsCIJp9CfTGa56pujI",
+    authDomain: "game-guide-ninja.firebaseapp.com",
+    databaseURL: "https://game-guide-ninja.firebaseio.com",
+    projectId: "game-guide-ninja",
+    storageBucket: "game-guide-ninja.appspot.com",
+    messagingSenderId: "239088576651",
+    appId: "1:239088576651:web:633ead33d0ad9cb5dc4c8e",
+    measurementId: "G-1554ZSECQB"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+</script>
   <script src="scripts/auth.js"></script>
   <script src="scripts/index.js"></script>
 </body>
