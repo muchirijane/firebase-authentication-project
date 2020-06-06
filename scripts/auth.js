@@ -1,14 +1,14 @@
-//Getting the data from firebase
-db.collection('guides').get().then(snapshot =>{
-    setupGuides(snapshot.docs);
-})
+
 
 // listen for auth status changes
 auth.onAuthStateChanged(user =>{
-    if(user){
-        console.log('user logged in: ', user);
+    if(user){ 
+        db.collection('guides').get().then(snapshot =>{
+        setupGuides(snapshot.docs);
+    });
+
     }else{
-        console.log('User has logged out!!');
+        setupGuides([]);
     }
 });
 //sign up
