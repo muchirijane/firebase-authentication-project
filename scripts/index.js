@@ -1,5 +1,17 @@
 //creating the html tempelate
 const guideList = document.querySelector('.guides');
+const loggedinLinks = document.querySelectorAll('.logged-in');
+const loggedoutLinks = document.querySelectorAll('.logged-out');
+
+const setupUI = (user) =>{
+  if(user){
+    loggedinLinks.forEach(item => item.style.display = 'block');
+    loggedoutLinks.forEach(item => item.style.display = 'none');
+  }else{
+    loggedinLinks.forEach(item => item.style.display = 'none');
+    loggedoutLinks.forEach(item => item.style.display = 'block');
+  }
+}
 
 //set guides
 
