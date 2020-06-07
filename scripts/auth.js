@@ -7,7 +7,7 @@ auth.onAuthStateChanged(user =>{
         db.collection('guides').onSnapshot(snapshot =>{
             setupGuides(snapshot.docs);
             setupUI(user);
-        });
+        }, err =>{console.log(err.message)});
 
     }else{
         setupGuides([]);
@@ -34,21 +34,27 @@ creteForm.addEventListener('submit', e =>{
 })
 
 //sign up
-const signUpForm = document.querySelector('#signup-form');
+const signupForm = document.querySelector('#signup-form');
 
-signUpForm.addEventListener('submit', (e) =>{
+signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
-
-    const email = signUpForm['signup-email'].value;
-    const password = signUpForm['signup-password'].value;
     
+    // get user info
+    const email = signupForm['signup-email'].value;
+    const password = signupForm['signup-password'].value;
+  
+    // sign up the user & add firestore data
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
-        console.log(cred.user);
-        const modal = document.querySelector('#modal-signup');
-        M.Modal.getInstance(modal).close();
-        signUpForm.reset();
+      return db.collection('users').doc(cred.user.uid).set({
+        bio: signupForm['signup-bio'].value
+      });
+    }).then(() => {
+      // close the signup modal & reset form
+      const modal = document.querySelector('#modal-signup');
+      M.Modal.getInstance(modal).close();
+      signupForm.reset();
     });
-});
+  });
 
 //logout
 const logout = document.querySelector('#logout');
