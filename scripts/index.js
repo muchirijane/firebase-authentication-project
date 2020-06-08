@@ -1,46 +1,53 @@
-//creating the html tempelate
+// DOM elements
 const guideList = document.querySelector('.guides');
-const loggedinLinks = document.querySelectorAll('.logged-in');
-const loggedoutLinks = document.querySelectorAll('.logged-out');
-const accountDetails = document.querySelector('.account-details')
+const loggedOutLinks = document.querySelectorAll('.logged-out');
+const loggedInLinks = document.querySelectorAll('.logged-in');
+const accountDetails = document.querySelector('.account-details');
 
-const setupUI = (user) =>{
-  if(user){
-    const html = `
-    <div> You are logged in us ${user.email}</div>
-    <div> You are logged in us ${user.bio}</div>
-    `;
-    accountDetails.innerHTML = html;
-
-    loggedinLinks.forEach(item => item.style.display = 'block');
-    loggedoutLinks.forEach(item => item.style.display = 'none');
-  }else{
-    accountDetails.innerHTML = '';
-    loggedinLinks.forEach(item => item.style.display = 'none');
-    loggedoutLinks.forEach(item => item.style.display = 'block');
-  }
-}
-
-//set guides
-
-const setupGuides = (data) =>{
-
-  if(data.length){
-    data.forEach(docs =>{
-      const guide = docs.data();
-      
-        const html = `
-          <li>
-            <div class="collapsible-header  blue-grey lighten-4">${guide.title}</div>
-            <div class="collapsible-body white">${guide.content}</div>
-          </li>
-        `;
-        guideList.innerHTML = html;
+const setupUI = (user) => {
+  if (user) {
+    // account info
+    db.collection('users').doc(user.uid).get().then(doc => {
+      const html = `
+        <div>Logged in as ${user.email}</div>
+        <div>${doc.data().bio}</div>
+      `;
+      accountDetails.innerHTML = html;
     });
-  }else{
-    guideList.innerHTML = '<h5 class ="center-align">Login to view guides</h5>';
+    // toggle user UI elements
+    loggedInLinks.forEach(item => item.style.display = 'block');
+    loggedOutLinks.forEach(item => item.style.display = 'none');
+  } else {
+    // clear account info
+    accountDetails.innerHTML = '';
+    // toggle user elements
+    loggedInLinks.forEach(item => item.style.display = 'none');
+    loggedOutLinks.forEach(item => item.style.display = 'block');
   }
-}
+};
+
+// setup guides
+const setupGuides = (data) => {
+
+  if (data.length) {
+    let html = '';
+    data.forEach(doc => {
+      const guide = doc.data();
+      const li = `
+        <li>
+          <div class="collapsible-header  blue-grey lighten-4"> ${guide.title} </div>
+          <div class="collapsible-body white"> ${guide.content} </div>
+        </li>
+      `;
+      html += li;
+    });
+    guideList.innerHTML = html
+  } else {
+    guideList.innerHTML = '<h5 class="center-align">Login to view guides</h5>';
+  }
+  
+
+};
 
 // setup materialize components
 document.addEventListener('DOMContentLoaded', function() {
