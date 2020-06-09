@@ -1,4 +1,14 @@
+//Makee admin
+const adminForm = document.querySelector('#admin-actions');
 
+adminForm.addEventListener('submit', e =>{
+    e.preventDefault();
+    const adminEmail = adminForm['admin-email'].value;
+    const addAdminRole = functions.httpsCallable('addAdminRole');
+    addAdminRole({email: adminEmail}).then((result)=>{
+        console.log(result);
+    });
+})
 
 // listen for auth status changes
 auth.onAuthStateChanged(user =>{
