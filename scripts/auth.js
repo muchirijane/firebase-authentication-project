@@ -1,5 +1,5 @@
 //Makee admin
-const adminForm = document.querySelector('#admin-actions');
+const adminForm = document.querySelector('.admin-actions');
 
 adminForm.addEventListener('submit', e =>{
     e.preventDefault();
@@ -7,12 +7,18 @@ adminForm.addEventListener('submit', e =>{
     const addAdminRole = functions.httpsCallable('addAdminRole');
     addAdminRole({email: adminEmail}).then((result)=>{
         console.log(result);
+
     });
 })
 
 // listen for auth status changes
 auth.onAuthStateChanged(user =>{
     if(user){ 
+        user.getIdTokenResult().then(idTokenResult => {
+            user.admin = idTokenResult.claims.admin;
+            console.log(idTokenResult.claims)
+            setupUI(user);
+          });
 
         db.collection('guides').onSnapshot(snapshot =>{
             setupGuides(snapshot.docs);
